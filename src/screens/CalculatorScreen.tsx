@@ -12,8 +12,35 @@ export const CalculatorScreen = () => {
     setResult('0')
   }
 
-  const setNumber = (numberKey: string) => {
-    setResult( result + numberKey )
+  const setNumber = (keyText: string) => {
+    // Don't accept double float
+    if (result.includes('.') && keyText === '.') {
+      return;
+    }
+    if (result.startsWith('0') || result.startsWith('-0')) {
+      // Floating point
+      if (keyText === '.') {
+        setResult(result + keyText)
+        // Is it another 0?
+      } else if (keyText === '0' && result.includes('.')) {
+        setResult(result + keyText)
+
+        // It is not 0 and doesnt have floating point
+      } else if (keyText !== '0' && !result.includes('.')) {
+        setResult(keyText)
+      }
+      
+    } else {
+      setResult( result + keyText )
+    }
+  }
+
+  const positiveToNegative = () => {
+    if (result.includes('-')) {
+      setResult(result.replace('-', ''))
+    } else {
+      setResult('-' + result)
+    }
   }
 
   return (
@@ -27,7 +54,7 @@ export const CalculatorScreen = () => {
       </Text>
       <View style={styles.row}>
         <ButtonCalc text="C" color="#9b9b9b" action={clean} />
-        <ButtonCalc text="+/-" color="#9b9b9b" action={setNumber}/>
+        <ButtonCalc text="+/-" color="#9b9b9b" action={positiveToNegative}/>
         <ButtonCalc text="%" color="#9b9b9b" action={setNumber}/>
         <ButtonCalc text="/" color="#ff9427" action={setNumber}/>
       </View>
