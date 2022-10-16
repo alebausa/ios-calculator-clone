@@ -5,11 +5,14 @@ import { styles } from '../theme/appTheme';
 interface Props {
   text: string,
   color?: string,
-  double?: boolean
+  double?: boolean,
+  action: (numberKey: string) => void
 }
-export const ButtonCalc = ({ text, color = '#2d2d2d', double = false }:Props) => {
+export const ButtonCalc = ({ text, color = '#2d2d2d', double = false, action }:Props) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+        onPress={() => action(text)}
+    >
       <View style={[
         styles.button,
         {
@@ -17,9 +20,10 @@ export const ButtonCalc = ({ text, color = '#2d2d2d', double = false }:Props) =>
           width: (double) ? 180 : 80
         }
       ]}>
-        <Text style={{
+        <Text
+          style={{
           ...styles.buttonText,
-          color: ( color === '#9b9b9b' ? 'black' : 'white' )
+          color: (color === '#9b9b9b' ? 'black' : 'white')
         }} > { text }</Text>
       </View> 
     </TouchableOpacity>
