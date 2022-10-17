@@ -1,51 +1,28 @@
-import React, { useState } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text } from 'react-native';
 import { styles } from '../theme/appTheme';
 import { ButtonCalc } from '../components/ButtonCalc';
+import { useCalculator } from '../hooks/useCalculator';
 
 export const CalculatorScreen = () => {
-  const [result, setResult] = useState('100')
-  const [prevResult, setPrevResult] = useState('0')
+  
+  const {
+    result,
+    prevResult,
+    handleCleanScreen,
+    handleSetNumber,
+    handlePositiveToNegative,
+    handleDelete,
+    handleDivision,
+    handleMultiply,
+    handleSum,
+    handleSubs,
+    handleOperation
+   } = useCalculator()
 
-  const clean = () => {
-    setPrevResult(result);
-    setResult('0')
-  }
-
-  const setNumber = (keyText: string) => {
-    // Don't accept double float
-    if (result.includes('.') && keyText === '.') {
-      return;
-    }
-    if (result.startsWith('0') || result.startsWith('-0')) {
-      // Floating point
-      if (keyText === '.') {
-        setResult(result + keyText)
-        // Is it another 0?
-      } else if (keyText === '0' && result.includes('.')) {
-        setResult(result + keyText)
-
-        // It is not 0 and doesnt have floating point
-      } else if (keyText !== '0' && !result.includes('.')) {
-        setResult(keyText)
-      }
-      
-    } else {
-      setResult( result + keyText )
-    }
-  }
-
-  const positiveToNegative = () => {
-    if (result.includes('-')) {
-      setResult(result.replace('-', ''))
-    } else {
-      setResult('-' + result)
-    }
-  }
 
   return (
     <View style={styles.calcContainer}>
-      <Text style={styles.prevResult}>{prevResult}</Text>
+      {prevResult !== '0' && <Text style={styles.prevResult}>{prevResult}</Text>}
       <Text
         style={styles.result}
         numberOfLines={1}
@@ -53,33 +30,33 @@ export const CalculatorScreen = () => {
         {result}
       </Text>
       <View style={styles.row}>
-        <ButtonCalc text="C" color="#9b9b9b" action={clean} />
-        <ButtonCalc text="+/-" color="#9b9b9b" action={positiveToNegative}/>
-        <ButtonCalc text="%" color="#9b9b9b" action={setNumber}/>
-        <ButtonCalc text="/" color="#ff9427" action={setNumber}/>
+        <ButtonCalc text="AC" color="#9b9b9b" action={handleCleanScreen} />
+        <ButtonCalc text="+/-" color="#9b9b9b" action={handlePositiveToNegative}/>
+        <ButtonCalc text="del" color="#9b9b9b" action={handleDelete}/>
+        <ButtonCalc text="/" color="#ff9427" action={handleDivision}/>
       </View>
       <View style={styles.row}>
-        <ButtonCalc text="7" action={setNumber} />
-        <ButtonCalc text="8" action={setNumber} />
-        <ButtonCalc text="9" action={setNumber} />
-        <ButtonCalc text="X" color="#ff9427" action={setNumber}/>
+        <ButtonCalc text="7" action={handleSetNumber} />
+        <ButtonCalc text="8" action={handleSetNumber} />
+        <ButtonCalc text="9" action={handleSetNumber} />
+        <ButtonCalc text="X" color="#ff9427" action={handleMultiply}/>
       </View>
       <View style={styles.row}>
-        <ButtonCalc text="4" action={setNumber}/>
-        <ButtonCalc text="5" action={setNumber}/>
-        <ButtonCalc text="6" action={setNumber}/>
-        <ButtonCalc text="-" color="#ff9427" action={setNumber}/>
+        <ButtonCalc text="4" action={handleSetNumber}/>
+        <ButtonCalc text="5" action={handleSetNumber}/>
+        <ButtonCalc text="6" action={handleSetNumber}/>
+        <ButtonCalc text="-" color="#ff9427" action={handleSubs}/>
       </View>
       <View style={styles.row}>
-        <ButtonCalc text="1" action={setNumber}/>
-        <ButtonCalc text="2" action={setNumber}/>
-        <ButtonCalc text="3" action={setNumber}/>
-        <ButtonCalc text="+" color="#ff9427" action={setNumber}/>
+        <ButtonCalc text="1" action={handleSetNumber}/>
+        <ButtonCalc text="2" action={handleSetNumber}/>
+        <ButtonCalc text="3" action={handleSetNumber}/>
+        <ButtonCalc text="+" color="#ff9427" action={handleSum}/>
       </View>
       <View style={styles.row}>
-        <ButtonCalc text="0" double action={setNumber}/>
-        <ButtonCalc text="." action={setNumber}/>
-        <ButtonCalc text="=" color="#ff9427" action={setNumber}/>
+        <ButtonCalc text="0" double action={handleSetNumber}/>
+        <ButtonCalc text="." action={handleSetNumber}/>
+        <ButtonCalc text="=" color="#ff9427" action={handleOperation}/>
       </View>
     </View>
   )

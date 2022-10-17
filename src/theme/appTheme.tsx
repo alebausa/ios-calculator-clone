@@ -15,7 +15,6 @@ export const styles = StyleSheet.create({
     fontSize: 60,
     textAlign: 'right',
     marginBottom: 10,
-    marginRight: 10
   },
   prevResult: {
     color: 'rgba(255,255,255,0.5)',
@@ -34,7 +33,6 @@ export const styles = StyleSheet.create({
     backgroundColor: '#2d2d2d',
     borderRadius: 100,
     justifyContent: 'center',
-    alignItems: 'center',
     marginHorizontal: 10
   },
   buttonText: {
@@ -42,6 +40,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 30,
     padding: 10,
-    fontWeight: '400'
+    fontWeight: '400',
+    marginRight: 4
   }
 });
